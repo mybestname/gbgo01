@@ -107,6 +107,11 @@
 - 复杂些基于证书。
 
 ## 3.gRPC & 服务发现 
-
-
+- 语言中立
+- ProtoBuff（高性能序列化）
+- IDL（proto3）代码生成（生产、维护效率）
+- HTTP2 性能 （双向，头压缩，单TCP多路复用，服务端推）
+  - go的net/rpc就是基于单TCP的多路复用（通过在一个连接上通过标志req/rsp的ID，称为CallID或RPCID）
+  - server push
+  
 ## 4.多集群 & 多租户 
