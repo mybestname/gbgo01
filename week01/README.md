@@ -152,3 +152,21 @@
    - 通过"染色"的方式，在真实环境中把测试流量进行数据隔离的流量路由（比灰度测试更好）。
      - 实现上是go的context，使用metadata，注入到HTTP header中来区分流量。
    - 多租户架构本质: 跨服务传递请求携带上下文(context)，数据隔离的流量路由方案。利用服务发现注册租户信息，注册成特定的租户。 
+  
+
+## 参考资料
+
+- [Chris Richardson【POJOs in Action/Microservices patterns】作者博客](https://microservices.io/index.html)
+- [Microservice 微服务的理论模型和现实路径 【CSDN mindwind-_-】](https://blog.csdn.net/mindfloating/article/details/51221780)
+- [微服务架构~BFF和网关是如何演化出来的](https://www.cnblogs.com/dadadechengzi/p/9373069.html)
+- [微服务中的设计模式](https://www.cnblogs.com/viaiu/archive/2018/11/24/10011376.html)
+- [微服务架构的故障隔离及容错处理](https://www.cnblogs.com/lfs2640666960/p/9543096.html)
+- [为什么Uber微服务架构使用多租户？](https://mp.weixin.qq.com/s/L6OKJK1ev1FyVDu03CQ0OA)
+- [面向资源的设计](https://www.bookstack.cn/read/API-design-guide/API-design-guide-02-面向资源的设计.md)
+- [How To Design Great APIs With API-First Design](https://www.programmableweb.com/news/how-to-design-great-apis-api-first-design-and-raml/how-to/2015/07/10)
+- [微服务实战（一）：微服务架构的优势与不足 【Nginx blog/Chris Richardson】](http://www.dockone.io/article/394)
+- [微服务实战（二）：构建微服务：使用API Gateway](https://www.jianshu.com/p/3c7a0e81451a)
+- [微服务实战（三）：深入微服务架构的进程间通信](https://www.jianshu.com/p/6e539caf662d)
+- [微服务实战（四）：服务发现的可行方案以及实践案例](https://my.oschina.net/CraneHe/blog/703173)
+- [微服务实践（五）：微服务的事件驱动数据管理](https://my.oschina.net/CraneHe/blog/703169)
+- [微服务实践（七）：从单体式架构迁移到微服务架构](https://my.oschina.net/CraneHe/blog/703160)
