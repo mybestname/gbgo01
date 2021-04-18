@@ -30,8 +30,36 @@
     - `io.Reader`/`io.Copy` 的实现者比如返回 io.EOF 来告诉调用者没有更多数据了，但这又不是错误。
   - Sentinel errors在两包之间建立源码依赖。那么形成循环依赖的情况概率加大。
   
-### 使用Error Type
+### Error Type (避免使用Error type)
 - Error type 指实现了 `error` 接口的自定义类型
+- 例子[`os.PathError`](https://golang.org/src/io/fs/fs.go?s=8967:9030#L233)
+
+```golang
+type PathError struct {
+	Op   string
+	Path string
+	Err  error
+}
+func (e *PathError) Error() string { return e.Op + " " + e.Path + ": " + e.Err.Error() }
+```
+#### 问题
+- 调用者要使用类型断言和类型switch，就要让自定义的 error 变为 public。这种模型会导致和调用者产生强耦合，从而导致 API 变得脆弱。
+- 虽然error type 比 sentinel errors 更好，但是 error types 共享 error values 许多相同的问题。
+- 避免将它们作为公共API的一部分。
+
+### Opaque Error （更好的方法）
+- 不透明的错误处理
+- 代码和调用者的耦合是最少的。
+- 例子[net.Error](https://golang.org/pkg/net/#Error) ([src](https://golang.org/src/net/net.go?s=13516:13637#L387))
+```golang
+type Error interface {
+	error
+	Timeout() bool   // Is the error a timeout?
+	Temporary() bool // Is the error temporary?
+}
+```
+  - 不暴露数据（具体的error类型或者error值）
+  - 而只暴露行为
 
 ## Handling Error
 
