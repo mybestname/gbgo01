@@ -67,6 +67,10 @@ type Error interface {
 
 ## Go 2 Error Inspection
 
+- https://go.googlesource.com/proposal/+/master/design/29934-error-values.md
+- https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md
+- https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md
+
 ## References
 
 - https://www.infoq.cn/news/2012/11/go-error-handle/
