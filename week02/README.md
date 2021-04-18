@@ -15,6 +15,24 @@
 
 ## Error Type
 
+### Sentinel Error (避免使用哨兵错误)
+
+- 即 `if err == ErrSomething` , Go使用特定的值来表示错误。
+- 我们把预定义的，特定的某种错误叫做Sentinel Error。
+- 哨兵错误是最不灵活的错误处理策略。
+  - 因为调用方必须使用 `==` 将结果与预先声明的值进行比较。
+  - 当想要提供更多的上下文时，因为返回一个不同的错误将破坏相等性检查。
+  - 携带上下文的`fmt.Errorf()`，会破坏调用者的`==` ，调用者将被迫查看`error.Error()`方法的输出，以查看它是否与特定的字符串匹配。
+- 不应该依赖`error.Error()`的输出，该结果是给人看的（用于log和stdout），而不是给程序处理的。
+- Sentinel errors在API中的问题
+  - Sentinel Error必须是公共的，然必要求文档，增加 API 的表面积。 
+  - 返回Sentinel Error的接口，则该接口的所有实现都将被限制为仅返回该错误，即使它们可以提供更具描述性的错误。
+    - `io.Reader`/`io.Copy` 的实现者比如返回 io.EOF 来告诉调用者没有更多数据了，但这又不是错误。
+  - Sentinel errors在两包之间建立源码依赖。那么形成循环依赖的情况概率加大。
+  
+### 使用Error Type
+- Error type 指实现了 `error` 接口的自定义类型
+
 ## Handling Error
 
 ## Go 1.13 errors
