@@ -63,7 +63,19 @@ type Error interface {
 
 ## Handling Error
 
+- 代码风格：先处理错误（`if err != nil`), 无错误，不锁进（一条直线）。
+- 减少错误则减少了错误处理（如何消除错误处理）
+  - 不必要的错误逻辑，可以直接消除。
+  - 使用接口内部的错误封装（`sc.Err()`, sc为bufio的Scanner）
+  - 很多重复的处理逻辑，可以封装逻辑，来封装错误处理。例如errWriter（https://blog.golang.org/errors-are-values）
+- Wrap错误
+  - 重复的日志只是噪音 vs. 不记录日志找不到那里出错了（没有调用栈）
+  - 
+
 ## Go 1.13 errors
+
+- 相对`github.com/pkg/errors` (Dave Cheney)，还不能记录调用栈
+
 
 ## Go 2 Error Inspection
 
