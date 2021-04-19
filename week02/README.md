@@ -76,15 +76,15 @@ type Error interface {
 
 - 相对`github.com/pkg/errors` (Dave Cheney)，还不能记录调用栈
 
+## Go 2 Error Values (Error Inspection)
+- [Error Values — Problem Overview](https://go.googlesource.com/proposal/+/master/design/go2draft-error-values-overview.md)
+- [Proposal: Go 2 Error Inspection (August 27, 2018)](https://go.googlesource.com/proposal/+/master/design/29934-error-values.md)
 
-## Go 2 Error Inspection
-
-- https://go.googlesource.com/proposal/+/master/design/29934-error-values.md
-- https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md
-- https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md
+## Go 2 Error Handling   
+- [Error Handling — Problem Overview by Russ Cox (August 27, 2018)](https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md)
+- [Error Handling — Draft Design](https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md)
 
 ## References
-
 - https://www.infoq.cn/news/2012/11/go-error-handle/
 - https://golang.org/doc/faq#exceptions
 - https://www.ardanlabs.com/blog/2014/10/error-handling-in-go-part-i.html
