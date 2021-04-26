@@ -39,8 +39,8 @@ func main() {
 
 	// Report the results.
 	fmt.Println("========================================")
-	fmt.Println("Number of goroutines before:", startingGs)
-	fmt.Println("Number of goroutines after :", endingGs)
+	//fmt.Println("Number of goroutines before:", startingGs)
+	//fmt.Println("Number of goroutines after :", endingGs)
 	fmt.Println("Number of goroutines leaked:", endingGs-startingGs)
 }
 
