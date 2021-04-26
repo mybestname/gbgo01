@@ -16,10 +16,28 @@
     - 这样goroutine就可以10w级别存在。
   - 并发不是并行（Concurrency is not Parallelism - Rob Pike）
     - 并行指两个或多个线程**同时**在**不同**CPU上执行代码。
+  - goroutine泄漏
+    - 对任何一个goroutine关键是搞懂如何结束
+    - 什么时候结束和谁不让他结束
 
-###  
+## [内存模型](https://golang.org/ref/mem)
 
-## 内存模型
+> ...reads of a variable in one goroutine can be guaranteed to observe values produced by writes to the same variable in a different goroutine.
+> 
+> To serialize access, protect the data with channel operations or other synchronization primitives such as those in the sync and sync/atomic packages.
+> 
+> If you must read the rest of this document to understand the behavior of your program, you are being too clever. 
+> 
+> Don't be clever.
+> 
+> *-- from go语言官方文档《go语言内存模型》*
+
+如果要保证串行访问，必须使用下面3选1
+- chan
+- sync
+- sync/atomic
+
+
 
 ## sync包
 
