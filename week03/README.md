@@ -20,7 +20,7 @@
     - 对任何一个goroutine关键是搞懂如何结束
     - 什么时候结束和谁不让他结束
 
-## [内存模型](https://golang.org/ref/mem)
+## 内存模型
 
 > ...reads of a variable in one goroutine can be guaranteed to observe values produced by writes to the same variable in a different goroutine.
 > 
@@ -37,7 +37,9 @@
 - sync
 - sync/atomic
 
-
+### 参考
+- [Go官方文档 - Go内存模型](https://golang.org/ref/mem)
+- [中文翻译](https://www.jianshu.com/p/5e44168f47a3)
 
 ## sync包
 
