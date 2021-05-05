@@ -25,7 +25,7 @@ func main() {
 			oldMap := v.Load().(Map)
 			cfg := &Config{}
 			cfg.a = []int{i, i+num, i+2*num, i+3*num, i+4*num, i+5*num}
-			oldMap[num] = cfg
+			oldMap[num] = cfg  // fatal error: concurrent map writes
 			v.Store(oldMap)
 		}
 	}
@@ -48,25 +48,27 @@ func main() {
 	wg.Wait()
 }
 
-// GORACE="halt_on_error=1" go run -race config.go
+// $ GORACE="halt_on_error=1" go run -race config.go
+// ==================
 // WARNING: DATA RACE
-// Write at 0x00c000142048 by goroutine 7:
-// main.main.func1()
-// /gbgo01/week03/u3_sync/06cow/config.go:30 +0x286
+// Write at 0x00c000124180 by goroutine 8:
+//   runtime.mapassign_fast64()
+//       /usr/local/go/src/runtime/map_fast64.go:92 +0x0
+//   main.main.func1()
+//       /gbgo01/week03/u3_sync/06cow/config.go:28 +0x271
 //
-// Previous read at 0x00c000142048 by goroutine 9:
-// main.main.func2()
-// /gbgo01/week03/u3_sync/06cow/config.go:45 +0x7d
+// Previous write at 0x00c000124180 by goroutine 7:
+//   runtime.mapassign_fast64()
+//       /usr/local/go/src/runtime/map_fast64.go:92 +0x0
+//   main.main.func1()
+//       /gbgo01/week03/u3_sync/06cow/config.go:28 +0x271
+//
+// Goroutine 8 (running) created at:
+//   main.main()
+//       /gbgo01/week03/u3_sync/06cow/config.go:33 +0x3e4
 //
 // Goroutine 7 (running) created at:
-// main.main()
-// /gbgo01/week03/u3_sync/06cow/config.go:35 +0x3c4
-//
-// r1 c1 [425 426 427 428 429 430] 11
-// Goroutine 9 (running) created at:
-// main.main()
-// /gbgo01/week03/u3_sync/06cow/config.go:42 +0x485
+//   main.main()
+//       /gbgo01/week03/u3_sync/06cow/config.go:32 +0x3c4
 // ==================
 // exit status 66
-
-
