@@ -44,8 +44,27 @@
 ## sync包
 
 ## chan
+- 关闭channel必须先于receive发生
+- 什么时候用，unbuffer vs. buffer
+  - 选择unbuffer除非你非常清楚为何要buffer
+  - 如果要用buffer，必须明白满的时候如何处理。
+  - buffer的大小并不代表性能的提升，不是越大越好（你需要真正理解size的大小）
 
 ## context包
+
+## 设计模式
+
+- [Go Concurrency Patterns: Timing out, moving on (Andrew Gerrand)23/Sep/2010](https://blog.golang.org/concurrency-timeouts)
+- [Go Concurrency Patterns (Rob Pike) Google I/O 2012](https://talks.golang.org/2012/concurrency.slide#1)
+- [Advanced Go Concurrency Patterns (Andrew Gerrand) Google I/O 2013](https://blog.golang.org/io2013-talk-concurrency)
+- [Go Concurrency Patterns: Pipelines and cancellation (SameerAjmani)13/Mar/2014](https://blog.golang.org/pipelines)
+- [Go Concurrency Patterns: Context (SameerAjmani)29/Jul/2014](https://blog.golang.org/context)
+
+### 基于Channel
+  - 超时控制 （context的超时控制基于channel）
+  - 管道
+  - 扇入/扇出
+  - 取消
 
 ## 参考
 
