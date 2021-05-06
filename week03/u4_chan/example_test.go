@@ -101,7 +101,7 @@ func blockTimeOut(bufSize int) {
 }
 
 func ExampleRange() {
-	c := make(chan int)
+	c := make(chan int) //是否buffer是无关紧要的。归根结底一句话，receiver永远会block
 	go func() {
 		defer close(c)  //这句一定不能忘，否则就是死锁
 		c <- 1
