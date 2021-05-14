@@ -1,0 +1,88 @@
+# Reference https://github.com/github/gitignore/blob/master/Go.gitignore
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+vendor/
+
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# OS General
+Thumbs.db
+.DS_Store
+
+# project
+*.cert
+*.key
+*.log
+bin/
+
+# Develop tools
+.vscode/
+.idea/
+*.swp
+
+# project ignores
+api/blog/v1/blog.pb.go
+api/blog/v1/blog.proto
+api/blog/v1/blog_grpc.pb.go
+api/blog/v1/blog_http.pb.go
+api/blog/v1/errors/article.pb.go
+api/blog/v1/errors/article_errors.pb.go
+cmd/blog/wire_gen.go
+internal/conf/conf.pb.go
+internal/data/ent/article.go
+internal/data/ent/article/
+internal/data/ent/article_create.go
+internal/data/ent/article_delete.go
+internal/data/ent/article_query.go
+internal/data/ent/article_update.go
+internal/data/ent/client.go
+internal/data/ent/comment.go
+internal/data/ent/comment/
+internal/data/ent/comment_create.go
+internal/data/ent/comment_delete.go
+internal/data/ent/comment_query.go
+internal/data/ent/comment_update.go
+internal/data/ent/config.go
+internal/data/ent/context.go
+internal/data/ent/ent.go
+internal/data/ent/enttest/
+internal/data/ent/hook/
+internal/data/ent/migrate/
+internal/data/ent/mutation.go
+internal/data/ent/predicate/
+internal/data/ent/runtime.go
+internal/data/ent/runtime/
+internal/data/ent/tag.go
+internal/data/ent/tag/
+internal/data/ent/tag_create.go
+internal/data/ent/tag_delete.go
+internal/data/ent/tag_query.go
+internal/data/ent/tag_update.go
+internal/data/ent/tx.go
+pkg/my/api/errors.pb.go
+pkg/my/api/errors.proto
+pkg/my/api/metadata.pb.go
+pkg/my/api/metadata_grpc.pb.go
+pkg/my/api/metadata_http.pb.go
+pkg/my/cmd/protoc-gen-my-ext/go.sum
+pkg/my/cmd/protoc-gen-my-ext/test/error_test.pb.go
+pkg/my/cmd/protoc-gen-my-ext/test/error_test_errors.pb.go
+pkg/my/cmd/protoc-gen-my-ext/test/http_test.pb.go
+pkg/my/cmd/protoc-gen-my-ext/test/http_test_errors.pb.go
+pkg/my/cmd/protoc-gen-my-ext/test/http_test_grpc.pb.go
+pkg/my/cmd/protoc-gen-my-ext/test/http_test_http.pb.go

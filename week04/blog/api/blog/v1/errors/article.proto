@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package api.blog.v1.errors;
+
+import "my/api/errors.proto";
+
+option go_package = "blog/api/v1/errors;errors";
+option java_multiple_files = true;
+option java_package = "blog.v1.errors";
+option objc_class_prefix = "APIBlogErrors";
+
+enum Article {
+    option (my.api.v1_errors) = true;
+
+    TitleMissing = 0;
+    ContentMissing = 1;
+}

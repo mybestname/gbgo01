@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package test;
+
+import "my/api/errors.proto";
+
+option go_package = "my/cmd/protc-gen-my-ext/test/test;test";
+
+enum MyErrTest {
+    option (my.api.v1_errors) = true;
+
+    ErrType1 = 0;
+    ErrType2 = 1;
+}
