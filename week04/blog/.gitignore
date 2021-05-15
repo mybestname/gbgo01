@@ -76,7 +76,6 @@ internal/data/ent/tag_query.go
 internal/data/ent/tag_update.go
 internal/data/ent/tx.go
 pkg/my/api/errors.pb.go
-pkg/my/api/errors.proto
 pkg/my/api/metadata.pb.go
 pkg/my/api/metadata_grpc.pb.go
 pkg/my/api/metadata_http.pb.go
