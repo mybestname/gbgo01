@@ -87,3 +87,8 @@ pkg/my/cmd/protoc-gen-my-ext/test/http_test.pb.go
 pkg/my/cmd/protoc-gen-my-ext/test/http_test_errors.pb.go
 pkg/my/cmd/protoc-gen-my-ext/test/http_test_grpc.pb.go
 pkg/my/cmd/protoc-gen-my-ext/test/http_test_http.pb.go
+
+protoc-gen-go-grpc_1.1
+protoc-gen-go_1.26
+protoc-gen-my-ext_v1.0.0
+protoc_3.14.0
