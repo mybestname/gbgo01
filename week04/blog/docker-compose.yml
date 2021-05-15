@@ -4,9 +4,17 @@ services:
     image: mysql
     ports:
       - 3306:3306
+    command: --init-file /data/init.sql
+    volumes:
+      - ./internal/data/init.sql:/data/init.sql
+    security_opt:
+      - seccomp:unconfined
     environment:
+      MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: "password"
       MYSQL_DATABASE: "testdb"
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
   redis-server:
     image: redis
     ports:
