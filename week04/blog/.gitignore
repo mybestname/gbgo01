@@ -35,9 +35,10 @@ bin/
 .idea/
 *.swp
 
-# project ignores
+# project binary
+cmd/blog/blog
+# project source (pb code ignored temporarilly)
 api/blog/v1/blog.pb.go
-api/blog/v1/blog.proto
 api/blog/v1/blog_grpc.pb.go
 api/blog/v1/blog_http.pb.go
 api/blog/v1/errors/article.pb.go
