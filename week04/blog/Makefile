@@ -34,12 +34,19 @@ check_protoc-gen: $(protoc-gen)
 
 wire:=wire_0.5.0
 $(wire):
-	@which wire 2>&1 >/dev/null && touch $(@) || echo "need to install wire. Please run make init"
+	@which wire 2>&1 >/dev/null && touch $(@) || echo "need to install wire. Please run 'make init'"
 
 check_wire: $(wire)
 
+check_exist:=\
+	internal/data/ent/ent.go
 
-check: check_protoc-gen check_wire
+$(check_exist):
+	[ -e $(@) ] || echo "$(@) is missing, Please run 'make generate'"
+
+check_exist: $(check_exist)
+
+check: check_protoc-gen check_wire check_exist
 
 init:
 	go get github.com/google/wire/cmd/wire@v0.5.0
