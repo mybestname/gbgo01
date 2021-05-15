@@ -42,7 +42,7 @@ check_exist:=\
 	internal/data/ent/ent.go
 
 $(check_exist):
-	[ -e $(@) ] || echo "$(@) is missing, Please run 'make generate'"
+	@[ -e $(@) ] || $(error "$(@) is missing, Please run 'make generate'")
 
 check_exist: $(check_exist)
 
