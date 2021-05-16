@@ -317,6 +317,18 @@ func unaryClientInterceptor(m middleware.Middleware, timeout time.Duration) grpc
   - https://github.com/golang/mock
     - https://github.com/golang/mock/tree/master/sample
 
+## 一个建议的Go框架选型（第三周答疑）
+- 服务发现：nacos
+- 配置中心：nacos或 Applo
+- 链路追踪：jadger
+- 监控：prometheus
+- 日志：ELK
+- 容器：k8s
+- 框架：kratos
+- 缓存：redis-cluster
+- 数据库：mysql/mariadb/tidb
+
+
 ## References 
 
  - https://www.ardanlabs.com/blog/2017/02/package-oriented-design.html
