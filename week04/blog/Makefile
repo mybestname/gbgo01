@@ -65,6 +65,25 @@ build: check $(google-api-proto)
 docker-up:
 	docker-compose up
 
+.PHONY: show-mysql-slowlog
+show-mysql-slowlog:
+	docker-compose exec mysql /bin/sh
+#TODO makefile
+#mysql -uroot -ppassword
+#mysql>
+#       set global slow_query_log=1;
+#       set global long_query_time=0;
+#mysql> set global log_queries_not_using_indexes=1;
+#mysql> show variables like 'slow_query_log_file';
+#show variables like 'slow_query_log_file';
+#+---------------------+--------------------------------------+
+#| Variable_name       | Value                                |
+#+---------------------+--------------------------------------+
+#| slow_query_log_file | /var/lib/mysql/75f172e6a87c-slow.log |
+#+---------------------+--------------------------------------+
+#1 row in set (0.00 sec)
+#mysqldumpslow /var/lib/mysql/75f172e6a87c-slow.log
+
 run:
 	./bin/blog -conf ./configs/config.yaml
 
