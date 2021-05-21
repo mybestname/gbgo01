@@ -1,4 +1,4 @@
-module u3leakybucket
+module leakybucket
 
 go 1.16
 

@@ -1,6 +1,6 @@
 # 第5周：微服务可用性设计
 
-## 隔离
+## 1 隔离
 - 服务隔离
   +  动静分离、读写分离
 - 轻重隔离
@@ -95,7 +95,7 @@
    + 解决：加cgroup，通过CGroup进行CPU、内存等资源控制
  - INFO 日志量过大，导致异常 ERROR 日志采集延迟。
 
-## 超时控制
+## 2 超时控制
 
 - 内网服务要求100ms （最多不能超300ms）
 - 公网服务不能超1s
@@ -155,7 +155,7 @@ message ServiceLevelObjective {
 - 服务依赖的 DB 连接池漏配超时，导致请求阻塞，最终服务集体 OOM。
 - 下游服务发版耗时增加，而上游服务配置超时过短，导致上游请求失败。
 
-## 过载保护
+## 3 过载保护和限流
 
 超时保护和过载保护的目的是都是让节点（服务）能够最存活：
  - 超时是让流量能尽快的消耗。
@@ -193,13 +193,124 @@ message ServiceLevelObjective {
 #### 实现
 - https://github.com/uber-go/ratelimit
 
-### 
+### 这两种算法的本质缺陷
+- 防护思路都是设定一个指标, 当超过该指标后就阻止或减少流量的继续进入，当系统负载降低到某一水平后则恢复流量的进入。
+- 都是被动的，其实际效果取决于限流阈值设置是否合理，但往往设置合理不是一件容易的事情。
+  + 集群增加机器或者减少机器限流阈值是否要重新设置?
+  + 设置限流阈值的依据是什么?
+  + 人力运维成本是否过高?
+  + 当调用方反馈429(429 Too Many Requests)时, 这个时候重新设置限流, 其实流量高峰已经过了重新评估限流是否有意义?
+- 被动, 不能快速适应流量变化。
+- 需要自适应的限流算法，根据系统当前的负载自动丢弃流量。
+
+### 利特尔法制
+
+```
+L(门店最大顾客容量）= 速度（单位时间进门的顾客数） * 时间（顾客从进门到出门耗时）
+```
+这说明可以用流入速度QPS和响应时间latency
+
+- 服务器临近过载时，主动抛弃一定量的负载，目标是自保。
+- 在系统稳定的前提下，保持系统的吞吐量。
+- CPU、内存作为信号量进行节流。
+- 队列管理: 队列长度、LIFO。
+
+### CoDel
+- CoDel(Controlled Delay)队列管理算法
+  - CoDel算法是诸多AQM策略算法中的一个 一个合理的队列管理策略
+  - CoDel pseudocode https://queue.acm.org/appendices/codel.html
+- BBR (Google的TCP BBR拥塞控制算法)
+  - https://en.wikipedia.org/wiki/TCP_congestion_control#TCP_BBR
+  - https://blog.csdn.net/dog250/article/details/52830576
+  - https://blog.csdn.net/dog250/article/details/72042516
+  - https://blog.csdn.net/dog250/article/details/72849890
+  - https://blog.csdn.net/dog250/article/details/72849893
+- Kratos的控流算法
+  - https://github.com/go-kratos/kratos/blob/v1.0.x/pkg/ratelimit/bbr/bbr.go
+- [阿里Sentinel的系统自适应限流](https://github.com/alibaba/Sentinel/wiki/%E7%B3%BB%E7%BB%9F%E8%87%AA%E9%80%82%E5%BA%94%E9%99%90%E6%B5%81)
 
 ## 限流
-## 降级
-## 重试
-## 负载均衡
-## 最佳实践
+过载保护是自适应的（如果使用前述的算法），而限流是限定的，通过指标来控制。
+- 令牌、漏桶针对单个节点，无法分布式限流。
+  - 一个节点一个节点的配置难以达到合适效果，无法精确达到要求。
+### 分布式限流
+- 单个大流量的接口，使用 redis 容易产生热点。
+- pre-request 模式对性能有一定影响，高频的网络往返。
+- 从获取单个 quota 升级成批量 quota。获取后使用令牌桶算法来限制。
+  - 每次心跳后，异步批量获取 quota，可以大大减少请求 redis 的频次，获取完以后本地消费，基于令牌桶拦截。
+  - 初次使用默认值，一旦有过去历史窗口的数据，可以基于历史窗口数据进行 quota 请求。
+  - 使用“最大最小公平分享”（Max-Min Fairness）。首先均分，然后按需求量从最小开始分配，先分配最小需求者，未得到满足的用户再均分，直到分配完备的原则。
+  - quota针对服务级别（粗粒度），更细粒度的接口级别，设定重要性
+    + 注意调用链的情况下，重要性需要传递（A->B,A->C），那么B，C重要性等于A
+  - 全局quota不足时候，优先拒绝重要性低的。
+  
+### 熔断（Circuit Breakers）
+- 前述的限流保护的都是服务本身。
+- 熔断是指client side限流，保护的是下游的服务。
+- 实现
+  - https://martinfowler.com/bliki/CircuitBreaker.html
+    + 熔断器`关闭`状态
+    + 默认状态，持续统计一些指标（rpc错误率）。
+    + 达到指标指，进入熔断器打开状态。
+    + 熔断器`打开`状态
+      + client不再对外处理服务请求。
+      + client自己内部等一个timeout，然后进入熔断器`半开`状态。
+    + 熔断器`半开`状态
+      + 该状态下，client向后台发起一个try 请求。
+      + 如果try失败，回到熔断器`打开`状态。
+      + 如果try成功，进入熔断器`关闭`状态，这时对外处理服务请求。
+  - 参考java的[Hystrix](https://github.com/Netflix/Hystrix)
+- 改进
+  - google sre  (Client request rejection probability)
+    - https://sre.google/sre-book/handling-overload/#eq2101
+  - https://github.com/tal-tech/go-zero/blob/master/core/breaker/googlebreaker.go#L41
+  - https://github.com/go-kratos/kratos/blob/v1.0.x/pkg/net/netutil/breaker/sre_breaker.go#L74
+    
+### Kafka Gutter
+- 主kafka 配一个副kafka（非等比例，只有主的10%），用于接管限流溢出的负载
+- 副kafka只使用10%的资源，平常不接受流量时，避免资源浪费。
+- 核心利用熔断的思路，是把抛弃的流量转移到 gutter 集群，如果 gutter 也接受不住的流量，重新回抛到主集群，最大力度来接受。
+
+### 客户端限流
+
+- 客户端休眠的策略（参考google的grpc的backoff）
+
+```golang
+// Backoff returns the amount of time to wait before the next retry given the
+// number of retries.
+func (bc Exponential) Backoff(retries int) time.Duration {
+	if retries == 0 {
+		return bc.Config.BaseDelay
+	}
+	backoff, max := float64(bc.Config.BaseDelay), float64(bc.Config.MaxDelay)
+	for backoff < max && retries > 0 {
+		backoff *= bc.Config.Multiplier
+		retries--
+	}
+	if backoff > max {
+		backoff = max
+	}
+	// Randomize backoff delays so that if a cluster of requests start at
+	// the same time, they won't operate in lockstep.
+	backoff *= 1 + bc.Config.Jitter*(grpcrand.Float64()*2-1)
+	if backoff < 0 {
+		return 0
+	}
+	return time.Duration(backoff)
+}
+```
+- [GRPC Connection Backoff Protocol](https://github.com/grpc/grpc/blob/master/doc/connection-backoff.md)
+  + https://github.com/grpc/grpc-go/blob/master/backoff/backoff.go
+    + https://github.com/grpc/grpc-go/blob/master/internal/backoff/backoff.go
+  + https://github.com/grpc/grpc/blob/master/src/core/lib/backoff/backoff.cc   
+- https://github.com/go-kratos/kratos/blob/v1.0.x/pkg/net/netutil/backoff.go
+
+## 4 降级
+
+## 5 重试
+
+## 6 负载均衡
+## 7 最佳实践
 
 ## References
 

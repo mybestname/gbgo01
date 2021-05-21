@@ -1,4 +1,4 @@
-module u3tokenbucket
+module tokenbucket
 
 go 1.16
 
