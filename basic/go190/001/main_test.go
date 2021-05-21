@@ -231,3 +231,32 @@ func ExamplePanic_fixed(){
 //   + 而且一个上层函数的安全不能保证内层函数的安全，因为可能含有其它go关键字调用。
 //   + 所以要仔细检查每一个go关键字的调用（即每一个goroutine的调用栈），才能确保panic/recovery安全性。
 //
+
+// 附注：关于panic函数和`runtime.gopanic`
+// - `runtime.gopanic`是panic函数的runtime实现。
+// - 最早的go实现 (rsc Nov 12, 2014)
+//   + https://github.com/golang/go/blob/d98553a72782efb2d96c6d6f5e12869826a56779/src/runtime/panic.go#L319
+// - 当前的go实现 (commit faa4fa1 Mar 15, 2021)
+//   + https://github.com/golang/go/blob/3c656445f139d8b6def40aa7beffd5da9fceccdb/src/runtime/panic.go#L958
+// - `runtime.gopanic`会首先执行defer，最终打印panic:xxx
+//
+//
+// 从 assembly code 中可以看出`panic`的实际执行了`runtime.gopanic`
+//  ```
+//          panic("panic")
+//    0x105e1e6             488d0593740000          LEAQ runtime.rodata+29280(SB), AX
+//    0x105e1ed             48890424                MOVQ AX, 0(SP)
+//    0x105e1f1             488d05d8b20200          LEAQ runtime.checkASM.args_stackmap+16(SB), AX
+//    0x105e1f8             4889442408              MOVQ AX, 0x8(SP)
+//    0x105e1fd             0f1f00                  NOPL 0(AX)
+//    0x105e200             e83be7fcff              CALL runtime.gopanic(SB)
+//    0x105e205             90                      NOPL
+//    0x105e206             e895d7fcff              CALL runtime.deferreturn(SB)
+//    0x105e20b             488b6c2430              MOVQ 0x30(SP), BP
+//    0x105e210             4883c438                ADDQ $0x38, SP
+//    0x105e214             c3                      RET
+//  ```
+//go:generate go build main.go
+//go:generate go tool objdump -s main.main -S main
+//go:generate rm main
+

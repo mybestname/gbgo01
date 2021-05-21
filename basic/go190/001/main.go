@@ -36,6 +36,3 @@ func main() {
 // goroutine 1 [running]:
 // main.main()
 // ...... main.go:11 .....
-
-
-
