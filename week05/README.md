@@ -307,10 +307,73 @@ func (bc Exponential) Backoff(retries int) time.Duration {
 
 ## 4 降级
 
-## 5 重试
+- 降级本质为: 提供有损服务。
+- UI 模块化，非核心模块降级。
+- BFF 层聚合 API，模块降级。
+- 页面上一次缓存副本。
+- 默认值、热门推荐等。
+- 流量拦截 + 定期数据缓存(过期副本策略)。
+- 处理策略
+  - 页面降级、延迟服务、写/读降级、缓存降级
+  - 抛异常、返回约定协议、Mock 数据、Fallback 处理
 
-## 6 负载均衡
-## 7 最佳实践
+## 5 重试 & 负载均衡
+
+### 重试
+- 留意重试带来的流量放大:
+  + 限制重试次数和基于重试分布的策略（例如重试比率: 不能超正常流量的10%）。
+  + 随机化、指数型递增的重试周期: exponential ackoff + jitter。
+    - backoff限流算法
+  + client 测记录重试次数直方图，传递到 server，进行分布判定，交由 server 判定拒绝。
+  + 只应该在失败的这层进行重试，当重试仍然失败，全局约定错误码“过载，无须重试”，避免级联重试。
+    - 重要：级联重试会造成重试流量的迅速放大，必须避免。
+- 业务不幂等，导致重试结果不一。  
+- “幂等”原为数学概念，指函数被执行多次，结果始终不变。
+  + 数字乘1：幂等。执行多少次运算，结果都是相同的。
+  + 数字取整：幂等：n次 floor(3.4)，结果都是3。
+  + 数字加1：不幂等，因为执行一次和执行多次的结果不同。
+
+### 负载均衡
+
+- P2C算法 The power of two choices in randomized load balancing
+  - 随机选取的两个节点进行打分，选择更优的节点:
+     + 选择 backend：CPU，client：health、inflight、latency 作为指标，使用一个简单的线性方程进行打分。
+     + 对新启动的节点使用常量惩罚值（penalty），以及使用探针方式最小化放量，进行预热。
+     + 打分比较低的节点，避免进入“永久黑名单”而无法恢复，使用统计衰减的方式，让节点指标逐渐恢复到初始状态(即默认值)。
+     + 当前发出去的请求超过了 predict lagtency，就会加惩罚。
+     + 指标计算结合 moving average，使用时间衰减，计算vt = v(t-1) * β + at * (1-β) ，β 为若干次幂的倒数即: Math.Exp((-span) / 600ms)
+  - 参考：
+    + https://www.eecs.harvard.edu/~michaelm/postscripts/tpds2001.pdf
+    + https://www.nginx.com/blog/nginx-power-of-two-choices-load-balancing-algorithm/ 
+  - 实现
+    + nginx C 
+      - https://github.com/nginx/nginx/blob/master/src/http/modules/ngx_http_upstream_least_conn_module.c#L100
+    + envoy C++ 
+      - https://github.com/envoyproxy/envoy/blob/main/source/common/upstream/load_balancer_impl.h#L471-L509
+    + tower Rust 
+      - https://github.com/tower-rs/tower/blob/master/tower/src/balance/p2c/service.rs#L181-L210
+  - 对于go来说，一般选择扩展 [gRPC balancer](https://github.com/grpc/grpc-go/tree/master/balancer/base)
+    + douyu 
+      - https://github.com/douyu/jupiter/blob/master/pkg/util/xp2c/leastloaded/least_loaded.go#L49-L80
+    + kratos 
+      - https://github.com/go-kratos/kratos/blob/v1.0.x/pkg/net/rpc/warden/balancer/p2c/p2c.go#L190-L270
+  
+## 最佳实践
+
+- 变更管理:
+  + 70％的问题是由变更引起的，恢复可用代码并不总是坏事。
+- 避免过载:
+  + 过载保护、流量调度等。
+- 依赖管理:
+  + 任何依赖都可能故障，做 chaos monkey testing，注入故障测试。
+- 优雅降级:
+  + 有损服务，避免核心链路依赖故障。
+- 重试退避:
+   + 退让算法，冻结时间，API retry detail 控制策略。
+- 超时控制:
+   + 进程内 + 服务间 超时控制。
+- 极限压测 + 故障演练。
+- 扩容 + 重启 + 消除有害流量。
 
 ## References
 
