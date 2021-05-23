@@ -87,11 +87,13 @@ func main() {
 // 注意：这个只是对于fmt.Println如何打印一个map的情况，而不是for..range循环的遍历的情况，所以原代码的输出
 // 还是不确定的，不管是否使用了go.12以上版本。
 //
+// 问题1：如何确保输出有序？
+// 关于这个问题见：main1.go
 
 //go:generate go build -gcflags "-m" main.go
 //go:generate go tool objdump -s main.main -S main
 //go:generate rm main
 
-// 问题：那么这个地址的内容一定会是3吗？
-// ?
+// 问题2：那么这个地址的内容一定会是3吗？
+// 关于这个问题见: main2.go
 
