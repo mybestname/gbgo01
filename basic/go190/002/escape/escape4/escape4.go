@@ -55,24 +55,3 @@ package escape4
 // 3. need to copy/link source to GOPATH/src to do the analysis
 // 4. more on https://golang.org/lib/godoc/analysis/help.html
 //
-// =========================================
-// 逃逸分析输出的解释 by Ian Lance Taylor
-// =========================================
-//  from [golang-dev mail-list](https://groups.google.com/g/golang-dev/c/Cf4tpaWP6rc/m/iUgOcpZvAQAJ)
-//
-//  "moved to heap" means that a local variable was allocated on the heap
-//  rather than the stack.
-//
-//  "leaking param" means that the memory associated with some parameter
-//  (e.g., if the parameter is a pointer, the memory to which it points)
-//  will escape. This typically means that the caller must allocate that
-//  memory on the heap.
-//
-//  "escapes to heap" means that some value was copied into the heap.
-//  This differs from "moved to heap" in that with "moved to heap" the
-//  variable was allocated in the heap. With "escapes to heap" the value
-//  of some variable was copied, for example when assigning to a variable
-//  of interface type, and that copy forced the value to be copied into a
-//  newly allocated heap slot.
-//
-

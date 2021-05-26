@@ -69,8 +69,8 @@ func createUserV2() *user {
 }
 
 //go:noinline
-func createUserV3() *user {          // V3和V2完全一样，只是语法不同，但是V2显然可读性更好
-	u := &user{                      // &user{...} escapes to heap
+func createUserV3() *user {          // V3和V2的语法不同，1. V2显然可读性更好 2.和V2有差别，V3会多一个栈分配再copy（逃逸）的过程。
+	u := &user{                      // escapes to heap 和 move to heap 是有区别的。
 		name:  "Bill",
 		email: "bill@ardanlabs.com",
 	}
@@ -96,24 +96,29 @@ func createUserV3() *user {          // V3和V2完全一样，只是语法不同
 
 //go:generate go build -gcflags "-m -m" escape2.go
 //go:generate rm escape2
-
-//逃逸分析输出可以看出:
-// ./escape2.go:26:6: cannot inline createUserV1: marked go:noinline
-//./escape2.go:37:6: cannot inline createUserV2: marked go:noinline
-//./escape2.go:48:6: cannot inline createUserV3: marked go:noinline
+//
+//
+//./escape2.go:44:6: cannot inline createUserV1: marked go:noinline
+//./escape2.go:58:6: cannot inline createUserV2: marked go:noinline
+//./escape2.go:72:6: cannot inline createUserV3: marked go:noinline
 //./escape2.go:11:6: cannot inline main: function too complex: cost 205 exceeds budget 80
-//./escape2.go:38:2: u escapes to heap:                                      变量u逃逸到堆上
-//./escape2.go:38:2:   flow: ~r0 = &u:
-//./escape2.go:38:2:     from &u (address-of) at ./escape2.go:44:9
-//./escape2.go:38:2:     from return &u (return) at ./escape2.go:44:2        u在44行的return逃逸
-//./escape2.go:38:2: moved to heap: u
-//./escape2.go:49:7: &user{...} escapes to heap:                             literal语法的不同导致输出稍有不同
-//./escape2.go:49:7:   flow: u = &{storage for &user{...}}:
-//./escape2.go:49:7:     from &user{...} (spill) at ./escape2.go:49:7
-//./escape2.go:49:7:     from u := &user{...} (assign) at ./escape2.go:49:4
-//./escape2.go:49:7:   flow: ~r0 = u:
-//./escape2.go:49:7:     from return u (return) at ./escape2.go:55:2
-//./escape2.go:49:7: &user{...} escapes to heap                              u一样在49处的return逃逸到堆上
+//./escape2.go:59:2: u escapes to heap:
+//./escape2.go:59:2:   flow: ~r0 = &u:
+//./escape2.go:59:2:     from &u (address-of) at ./escape2.go:65:9
+//./escape2.go:59:2:     from return &u (return) at ./escape2.go:65:2
+//./escape2.go:59:2: moved to heap: u
+//./escape2.go:73:7: &user{...} escapes to heap:
+//./escape2.go:73:7:   flow: u = &{storage for &user{...}}:
+//./escape2.go:73:7:     from &user{...} (spill) at ./escape2.go:73:7
+//./escape2.go:73:7:     from u := &user{...} (assign) at ./escape2.go:73:4
+//./escape2.go:73:7:   flow: ~r0 = u:
+//./escape2.go:73:7:     from return u (return) at ./escape2.go:79:2
+//./escape2.go:73:7: &user{...} escapes to heap
+//
+// 逃逸分析输出可以看出:
+// - 变量u和&user{...}都逃逸到堆上
+// - literal语法的不同导致输出不同
+// - move to heap 和 escape to hea是有不同的。应该使用V2的语义，而非V3的写法。
 
 
 //
