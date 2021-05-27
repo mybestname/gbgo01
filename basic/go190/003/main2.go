@@ -6,14 +6,7 @@ func main() {
 
 // 关于new的实现
 //
-// 最新 trunk
-// - https://github.com/golang/go/commit/ab3b67abfd9bff30fc001c966ab121bacff3de9b
-// - https://go-review.googlesource.com/c/go/+/284117
-//   cmd/compile: remove ONEWOBJ
-//   After CL 283233, SSA can now handle new(typ) without the frontend to
-//   generate the type address, so we can remove ONEWOBJ in favor of ONEW
-//   only.
-// ONEWOBJ已经被删除，转而使用 ONEW
+//
 //
 // https://github.com/golang/go/blob/d050238bb653711b47335583c5425c9efec30e4e/src/cmd/compile/internal/walk/builtin.go#L486-L500
 // `func walkNew(n *ir.UnaryExpr, init *ir.Nodes) ir.Node`
@@ -34,6 +27,14 @@ func main() {
 //  	return s.rtcall(ir.Syms.Newobject, true, []*types.Type{types.NewPtr(typ)}, s.reflectType(typ))[0]
 //  }
 // ```
+//
+// 注：根据最新trunk, ONEWOBJ(go1.16和之前）已经被删除，转而使用 ONEW
+// - https://github.com/golang/go/commit/ab3b67abfd9bff30fc001c966ab121bacff3de9b
+// - https://go-review.googlesource.com/c/go/+/284117
+//   cmd/compile: remove ONEWOBJ
+//   After CL 283233, SSA can now handle new(typ) without the frontend to
+//   generate the type address, so we can remove ONEWOBJ in favor of ONEW
+//   only.
 
 
 
