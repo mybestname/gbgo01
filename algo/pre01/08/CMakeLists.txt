@@ -1,0 +1,1 @@
+add_executable( max_square maximal_square.cpp )

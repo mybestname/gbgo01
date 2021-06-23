@@ -1,0 +1,1 @@
+add_executable( min_path min_path_sum.cpp )
