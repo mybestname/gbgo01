@@ -1,0 +1,10 @@
+syntax = 'proto3';
+
+package message;
+
+option go_package = "goim_udp/message;message";
+
+message Message {
+    string text = 1;
+    int64 timestamp = 2;
+}
