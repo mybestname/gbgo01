@@ -1,0 +1,1 @@
+add_executable(degree_of_array degree_of_array.cpp)

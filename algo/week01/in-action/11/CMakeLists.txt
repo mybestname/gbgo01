@@ -1,0 +1,1 @@
+add_executable(count_nice_subarrays count_nice_subarrays.cpp)

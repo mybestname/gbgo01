@@ -1,0 +1,1 @@
+add_executable(maximum_subarray maximum_subarray.cpp)

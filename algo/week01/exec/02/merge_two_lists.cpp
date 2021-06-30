@@ -41,8 +41,6 @@ public :
 };
 
 int main() {
-    Solution sol;
-
     ListNode l1n1 = ListNode(4, nullptr);
     ListNode l1n2 = ListNode(2, &l1n1);
     ListNode l1n3 = ListNode(1, &l1n2);

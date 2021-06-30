@@ -6,3 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(pre01)
 add_subdirectory(week01)
+add_subdirectory(week02)
