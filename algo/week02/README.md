@@ -1,5 +1,4 @@
 ## 第2周 (2021.6.20-6.26)
-- ### [视频3：第一周习题课笔记 (6.23)](./03_w1_workout.md)
 - ### [视频4：第3课笔记 (6.24)](./04_lec3.md)
 - ### [视频5：第4课笔记 (6.26)](./05_lec4.md)
 
@@ -25,10 +24,16 @@
 #### 无序集合、映射
 - 两数之和（Easy）
   - https://leetcode-cn.com/problems/two-sum/description/  
+  - [要点](../week01/in-action/15/README.md)
+  - [解法](../week01/in-action/15/two_sum.cpp)
 - 模拟行走机器人（Easy）
   - https://leetcode-cn.com/problems/walking-robot-simulation/
+  - [要点](../week02/in-action/01/README.md)
+  - [解法](../week02/in-action/01/walking_robot.cpp)
 - 字母异位词分组（Medium）
   - https://leetcode-cn.com/problems/group-anagrams/
+  - [要点](../week02/in-action/02/README.md)
+  - [解法](../week02/in-action/02/)
 - 串联所有单词的子串（Hard）
   - https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/
 #### LRU

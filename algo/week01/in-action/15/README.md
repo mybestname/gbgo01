@@ -67,7 +67,13 @@
   - 可以先排序，再用167解决。
   - 但还是要求返回原有的下标
     - 如何解决？
-    - 
+
+### 思路2
+- 使用map(hash表)来实现
+- 对于每一个数x，查前面有没有target-x，没有就插入x。直到找到target-x。
+
+
+
 
 ## 15. 三数之和
 - https://leetcode-cn.com/problems/3sum/

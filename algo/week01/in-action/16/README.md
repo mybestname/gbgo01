@@ -1,5 +1,6 @@
 ## 11. 盛最多水的容器
 - https://leetcode-cn.com/problems/container-with-most-water/
+- https://leetcode.com/problems/container-with-most-water/  
 - 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。
 - 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 - 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
@@ -45,11 +46,23 @@
 ```
 
 ### 思路
-- 思考：首先考虑暴力法：
-  - i < j
+- 思考：
+  - 首先考虑暴力法：
+    ```
+    i < j
     for i in 0 ~ n-1
       for j in i+1 ~ n-1
-        ans = max (ans, i,j )
+        ans = max (ans, 盛水(i,j))
+    
+    [1,8,6,2,5,4,8,3,7]
+    i = 0 to 7
+    j = 1 to 8
+    盛水 = (j-i) * min(nums[i],nums[j]
+    ```
+  - 然后查找冗余
+    - i，j两个端点，看哪个可用（固定一个看另一个），
+    - 发现，对于每一个迭代，盛水由短边决定（长边冗余），算完一次就没用（短边冗余）。
+    - 所以，可以从i,j向中间移动，每次移动短边。
       
 
 

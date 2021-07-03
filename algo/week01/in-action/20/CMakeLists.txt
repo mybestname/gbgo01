@@ -1,0 +1,1 @@
+add_executable(adjacent_value_search adjacent_value_search.cpp)

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <unordered_map>
 #include "../../../base/algo_base.h"
 
 using namespace std;
@@ -24,6 +25,20 @@ public:
         return {};
     }
 };
+// using hash map
+using namespace std;
+class Solution2 {
+public:
+    static vector<int> twoSum(vector<int> &nums, int target) { //输入无序
+        unordered_map<int,int> map;
+        for (int i=0; i < nums.size(); i++ ){
+            int find = target-nums[i];
+            if (map.count(find) != 0 ) return {map[find],i};
+            else map[nums[i]]=i;
+        }
+        return {};
+    }
+};
 
 int main() {
     vector<int> nums = {25,5,75};
@@ -32,5 +47,13 @@ int main() {
     cout << "nums=" << nums << ", target=" << target <<", result=" << result << endl;
     // [25, 5, 75], 100
     // [0,2]
+    {
+        vector<int> nums = {3,3};
+        int target = 6;
+        vector<int> result = Solution2::twoSum(nums, target);
+        cout << "nums=" << nums << ", target=" << target <<", result=" << result << endl;
+        // [3,3],6
+        // [0,1]
+    }
     return 0;
 }

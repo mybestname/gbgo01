@@ -1,18 +1,19 @@
 ## 第一周 (2021.6.13-6.19)
-- ### [第0课笔记 (6.16)](./00_lec0.md)
-- ### [第1课笔记 (6.17)](./01_lec1.md)
-- ### [第2课笔记 (6.18)](./02_lec2.md)
+- ### [视频0 第0课笔记 (6.16)](./00_lec0.md)
+- ### [视频1 第1课笔记 (6.17)](./01_lec1.md)
+- ### [视频2 第2课笔记 (6.18)](./02_lec2.md)
+- ### [视频3 第一周习题课笔记 (6.23)](./03_w1_workout.md)
 
 ## 第一周作业
 以下题目选 2 道提交即可
 - 加一（Easy）
   - https://leetcode-cn.com/problems/plus-one/
-  - [要点](./exec/01/README.md)  
-  - [解法](./exec/01/plus_one.cpp)
+  - [要点](./workout/01/README.md)  
+  - [解法](./workout/01/plus_one.cpp)
 - 合并两个有序链表（Easy）
   - https://leetcode-cn.com/problems/merge-two-sorted-lists/
-  - [要点](./exec/02/README.md)
-  - [解法](./exec/02/merge_two_lists.cpp)
+  - [要点](./workout/02/README.md)
+  - [解法](./workout/02/merge_two_lists.cpp)
 - 设计循环双端队列（Medium）
   - https://leetcode-cn.com/problems/design-circular-deque/
 - 和为 K 的子数组（Medium）
@@ -52,6 +53,7 @@
   - [解法](./in-action/06/linked_list_cycle_ii.cpp)
 - 邻值查找（Hard）
   - https://www.acwing.com/problem/content/description/138/
+  - [思路](./in-action/20/README.md)
 
 #### 栈、队列
 - 有效的括号（medium）
@@ -104,11 +106,18 @@
 - 盛最多水的容器（Medium）
   - https://leetcode-cn.com/problems/container-with-most-water/
   - [思路](./in-action/16/README.md)
+  - [解法](./in-action/16/most_water.cpp)
 #### 单调栈、单调队列
 - 柱状图中最大的矩形（Hard）
   - https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
+  - [思路](./in-action/17/README.md)
+  - [解法](./in-action/17/largest_rectangle_histogram.cpp)
 - 滑动窗口最大值（Hard）
   - https://leetcode-cn.com/problems/sliding-window-maximum/
+  - [思路](./in-action/18/README.md)
+  - [解法](./in-action/18/sliding_window_maximum.cpp)
 - 接雨水（Hard）
   - https://leetcode-cn.com/problems/trapping-rain-water/
+  - [思路](./in-action/19/README.md)
+  - [解法](./in-action/19/trapping_rain_water.cpp)
  

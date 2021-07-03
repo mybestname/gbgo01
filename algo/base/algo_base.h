@@ -1,6 +1,14 @@
 #ifndef ALGO2021_ALGO_BASE_H
 #define ALGO2021_ALGO_BASE_H
 #include <iterator> // needed for std::ostream iterator
+template <unsigned int N>
+std::ostream& operator<< (std::ostream& out, const int (&arr)[N]) {
+    out << '[';
+    for(int i = 0; i < N; i++) out << arr[i] << ",";
+    out << "\b]";
+    return out;
+}
+
 template <typename T>
 std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
     if ( !v.empty() ) {
