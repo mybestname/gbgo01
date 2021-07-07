@@ -1,0 +1,1 @@
+add_executable(validate_binary_search_tree validate_binary_search_tree.cpp)

@@ -33,31 +33,55 @@
 - 字母异位词分组（Medium）
   - https://leetcode-cn.com/problems/group-anagrams/
   - [要点](../week02/in-action/02/README.md)
-  - [解法](../week02/in-action/02/)
+  - [解法](../week02/in-action/02/group_anagrams.cpp)
 - 串联所有单词的子串（Hard）
   - https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/
+  - [要点](../week02/in-action/03/README.md)
+  - [解法](../week02/in-action/03/substr_concat_words.cpp)
 #### LRU
 - LRU 缓存机制（Medium）
   - https://leetcode-cn.com/problems/lru-cache/
+  - [要点](../week02/in-action/04/README.md)
+  - [解法](../week02/in-action/04/lru_cache.cpp)
 ### 第 4 课
 #### 递归
 - 子集（Medium）
   - https://leetcode-cn.com/problems/subsets/
+  - [要点](../week02/in-action/05/README.md)
+  - [解法](../week02/in-action/05/subsets.cpp)
 - 组合（Medium）
   - https://leetcode-cn.com/problems/combinations/
+  - [要点](../week02/in-action/06/README.md)
+  - [解法](../week02/in-action/06/combinations.cpp)
 - 全排列（Medium）
   - https://leetcode-cn.com/problems/permutations/
+  - [要点](../week02/in-action/07/README.md)
+  - [解法](../week02/in-action/07/permutations.cpp)
 #### 树
 - 翻转二叉树（Easy）
   - https://leetcode-cn.com/problems/invert-binary-tree/description/
+  - [要点](../week02/in-action/08/README.md)
+  - [解法](../week02/in-action/08/invert_binary_tree.cpp)
 - 验证二叉搜索树（Medium）
   - https://leetcode-cn.com/problems/validate-binary-search-tree/
+  - [要点](../week02/in-action/09/README.md)
+  - [解法](../week02/in-action/09/validate_binary_search_tree.cpp)
 - 二叉树的最大深度（Easy）
   - https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
+  - [要点](../week02/in-action/10/README.md)
+  - [解法](../week02/in-action/10/max_depth_binary_tree.cpp)
 - 二叉树的最小深度（Easy）
   - https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
+  - [要点](../week02/in-action/10/README.md)
+  - [解法](../week02/in-action/10/min_depth_binary_tree.cpp)
+  
 #### 分治
 - Pow(x, n) （Medium）
   - https://leetcode-cn.com/problems/powx-n/
+  - [要点](../week02/in-action/11/README.md)
+  - [解法](../week02/in-action/11/pow.cpp)
+  
 - 括号生成（Medium）
   - https://leetcode-cn.com/problems/generate-parentheses/
+  - [要点](../week02/in-action/12/README.md)
+  - [解法](../week02/in-action/12/generate_parentheses.cpp)

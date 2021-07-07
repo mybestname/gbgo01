@@ -1,0 +1,1 @@
+add_executable(generate_parentheses generate_parentheses.cpp)
