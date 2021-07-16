@@ -45,6 +45,15 @@ std::ostream& operator<< (std::ostream& out, const std::vector<std::vector<T>>& 
     return out;
 }
 
+template <typename P, typename Q>
+std::ostream& operator<< (std::ostream& out, const std::pair<P,Q>& v) {
+    out << '(' << v.first;
+    out << ',';
+    out << v.second,
+    out << ")";
+    return out;
+}
+
 // Definition for singly-linked list.
 class ListNode {
 public:
@@ -56,12 +65,16 @@ public:
 };
 std::ostream& operator<< (std::ostream& out, const ListNode* v) {
     out << '[';
-    if ( v != nullptr) { out << v->val ;}
-    out << ",";
-    for (ListNode* next= v->next ; next != nullptr; next = next->next) {
-        out << next->val << ",";
+    if ( v != nullptr) {
+       out << v->val ;
+       out << ",";
+       for (ListNode *next = v->next; next != nullptr; next = next->next) {
+           out << next->val << ",";
+       }
+       out << "\b]";
+    }else{
+       out << "]";
     }
-    out << "\b]";
     return out;
 }
 
@@ -98,5 +111,18 @@ void printTreeNode(std::ostream& out, const std::string& prefix, const TreeNode*
         printTreeNode( out, prefix + (isLeft ? "│   " : "    "), node->right, false);
     }
 }
+
+class pair_hash {
+public:
+    template <class T1, class T2>
+    std::size_t operator () (const std::pair<T1,T2> &p) const {
+        auto h1 = std::hash<T1>{}(p.first);
+        auto h2 = std::hash<T2>{}(p.second);
+
+        // Mainly for demonstration purposes, i.e. works but is overly simple
+        // In the real world, use sth. like boost.hash_combine
+        return h1 ^ h2;
+    }
+};
 
 #endif //ALGO2021_ALGO_BASE_H

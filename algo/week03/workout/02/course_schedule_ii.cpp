@@ -4,6 +4,7 @@
 #include "../../../base/algo_base.h"
 
 using namespace std;
+// 解法1：基于BFS
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
@@ -25,7 +26,7 @@ public:
     }
 
 private:
-    int n ;
+    int n = 0 ;
     vector<vector<int>> edges;  //存图
     vector<int> in_degree; // n个点的入度数
     void addEdge(int x, int y) {

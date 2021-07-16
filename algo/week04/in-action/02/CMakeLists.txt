@@ -1,0 +1,2 @@
+add_executable(sliding_window_max sliding_window_max.cpp)
+

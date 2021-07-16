@@ -1,0 +1,2 @@
+add_executable(merge_k_sorted_lists merge_k_sorted_lists.cpp)
+

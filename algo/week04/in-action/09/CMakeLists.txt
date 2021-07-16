@@ -1,0 +1,2 @@
+add_executable(find_min_in_rotated_sorted_array find_min_in_rotated_sorted_array.cpp)
+

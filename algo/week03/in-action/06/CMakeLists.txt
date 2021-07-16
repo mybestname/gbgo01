@@ -1,0 +1,3 @@
+add_executable(binary_tree_diameter binary_tree_diameter.cpp)
+add_executable(tree_diameter tree_diameter.cpp)
+

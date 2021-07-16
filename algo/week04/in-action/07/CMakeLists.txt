@@ -1,0 +1,2 @@
+add_executable(find_first_last_in_sorted_array find_first_last_in_sorted_array.cpp)
+
