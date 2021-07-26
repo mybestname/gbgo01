@@ -1,0 +1,2 @@
+add_executable(capacity_packages_d_days capacity_packages_d_days.cpp)
+

@@ -1,3 +1,7 @@
 .idea/
 .DS_Store
 cmake-build-debug
+/algo/zquiz/
+/algo/week0[1-4]/*
+/algo/week*/in-action/*
+/algo/week*/*.*

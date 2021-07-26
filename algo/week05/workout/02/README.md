@@ -1,0 +1,2 @@
+- https://leetcode-cn.com/problems/online-election/
+- https://leetcode.com/problems/online-election/
